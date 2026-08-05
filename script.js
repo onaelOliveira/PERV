@@ -279,5 +279,34 @@ function resetFlow(){
   goTo('hero');
 }
 
+const phoneField = document.getElementById("phoneField");
+
+phoneField.addEventListener("input", function (e) {
+    let value = e.target.value.replace(/\D/g, "");
+
+    // Limita a 11 dígitos
+    value = value.substring(0, 11);
+
+    if (value.length > 10) {
+        // Celular: (99) 9 9999-9999
+        value = value.replace(
+            /^(\d{2})(\d{1})(\d{4})(\d{0,4}).*/,
+            "($1) $2 $3-$4"
+        );
+    } else if (value.length > 2) {
+        value = value.replace(
+            /^(\d{2})(\d+)/,
+            "($1) $2"
+        );
+    } else if (value.length > 0) {
+        value = value.replace(
+            /^(\d*)/,
+            "($1"
+        );
+    }
+
+    e.target.value = value;
+});
+
 renderSituations();
 renderStep();

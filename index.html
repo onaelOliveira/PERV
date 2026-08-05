@@ -99,7 +99,7 @@
       <h2 class="step-title">Confirme e envie</h2>
 
       <div class="field-label" style="margin-top:0;">Telefone de contato</div>
-      <input type="tel" id="phoneField" value="(96) 9 9123-4567">
+      <input type="tel" id="phoneField" placeholder="DDD + Número" maxlength="16" onfocus="clearPhone(this)" oninput="formatPhone(this)">
       <p class="meter-note" style="margin-top:6px;">Identificado automaticamente pelo link recebido via WhatsApp/SMS — edite se necessário.</p>
 
       <div class="summary-card">
@@ -115,7 +115,7 @@
           <p><b>Finalidade:</b> os dados enviados (foto/vídeo, localização e telefone de contato) serão usados exclusivamente para triagem, classificação de criticidade e despacho de equipe técnica pela Equatorial.</p>
           <p><b>Dados coletados:</b> imagem ou vídeo da situação, coordenadas de geolocalização vinculadas a cada evidência, número de telefone de contato e a categoria de risco selecionada.</p>
           <p><b>Retenção:</b> os dados ficam armazenados pelo tempo necessário para atendimento da ocorrência e cumprimento de obrigações regulatórias, sendo descartados após esse período conforme política de retenção da Equatorial.</p>
-          <p><b>Compartilhamento:</b> os dados são encaminhados internamente às equipes de operação (ADMS/OPER) responsáveis pelo atendimento, podendo ser compartilhados com órgãos públicos (ex.: Defesa Civil) quando necessário à segurança pública.</p>
+          <p><b>Compartilhamento:</b> os dados são encaminhados internamente às equipes de operação responsáveis pelo atendimento, podendo ser compartilhados com órgãos públicos (ex.: Defesa Civil) quando necessário à segurança pública.</p>
           <p><b>Direitos do titular:</b> você pode solicitar confirmação, acesso, correção ou eliminação dos seus dados junto aos canais oficiais da Equatorial, nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
         </div>
         <label class="consent-check">
