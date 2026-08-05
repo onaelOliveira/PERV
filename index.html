@@ -1,0 +1,165 @@
+<!--
+  PERE — Portal de Evidências de Risco à Vida
+  Protótipo navegável — Programa Agentes da Inovação, Grupo Equatorial
+  Autor: Natanael
+  Status: protótipo de demonstração (sem integração real com ADMS/OPER)
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PERE — Portal de Evidências de Risco à Vida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#0E1218"/></svg></div>
+      <div>
+        <div class="name">PERE</div>
+        <div class="sub">Portal de Evidências de Risco à Vida</div>
+      </div>
+    </div>
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <main>
+
+    <!-- STEP 0 — HERO -->
+    <section class="panel active" data-step="hero">
+      <div class="eyebrow">Grupo Equatorial · Prototipagem</div>
+      <h1 class="headline">Viu um risco elétrico?<br>Registre em 1 minuto.</h1>
+      <p class="lede">Fotografe, grave ou descreva a situação. O sistema classifica a gravidade e encaminha direto para a equipe operacional — sem call center, sem espera.</p>
+
+      <div class="safety-banner">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 9v4M12 17h.01M10.3 3.9L2.5 17a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" stroke="#E5484D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p><b>Risco imediato à vida acontecendo agora?</b> Ligue para o Corpo de Bombeiros (193) antes de registrar aqui. Este portal complementa — não substitui — o atendimento de emergência.</p>
+      </div>
+
+      <button class="cta-primary" onclick="goTo('situacao')">Registrar ocorrência agora</button>
+
+      <div class="hero-stats">
+        <div class="stat"><div class="n">8</div><div class="l">Tipos de risco</div></div>
+        <div class="stat"><div class="n">3</div><div class="l">Níveis de urgência</div></div>
+        <div class="stat"><div class="n">ADMS</div><div class="l">Roteamento direto</div></div>
+      </div>
+    </section>
+
+    <!-- STEP 1 — SITUAÇÃO -->
+    <section class="panel" data-step="situacao">
+      <div class="step-label">Etapa 1 de 3</div>
+      <h2 class="step-title">O que você está vendo?</h2>
+      <div id="situationList"></div>
+
+      <div class="meter-wrap" id="meterWrap">
+        <div class="meter-head">
+          <span class="lbl">Criticidade estimada</span>
+          <span class="val" id="meterVal">—</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
+        <p class="meter-note" id="meterNote"></p>
+      </div>
+    </section>
+
+    <!-- STEP 2 — EVIDÊNCIA + LOCALIZAÇÃO (localização só é capturada no momento do envio da mídia) -->
+    <section class="panel" data-step="evidencia">
+      <div class="step-label">Etapa 2 de 3</div>
+      <h2 class="step-title">Anexe foto ou vídeo</h2>
+      <p class="lede" style="margin-bottom:16px;">A localização é capturada automaticamente somente no momento em que você anexa cada foto ou vídeo, e fica vinculada apenas a essa evidência.</p>
+
+      <div class="consent-box">
+        <p><b>Compartilhamento de localização.</b> Ao anexar uma foto ou vídeo, você autoriza o compartilhamento da sua localização exata naquele momento. A coordenada é usada exclusivamente para direcionar a equipe técnica até o local do risco, fica vinculada apenas à evidência enviada, e <b>não há rastreamento contínuo</b> do seu dispositivo antes ou depois do envio.</p>
+        <label class="consent-check">
+          <input type="checkbox" id="consentLocationCheck" onchange="toggleLocationConsent(this.checked)">
+          <span>Li e autorizo o compartilhamento da minha localização junto com cada evidência enviada.</span>
+        </label>
+      </div>
+
+      <label class="upload-box locked" for="fileInput" id="uploadBox">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7h3l2-2h6l2 2h3v13H4V7Z" stroke="#F5C518" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" stroke="#F5C518" stroke-width="1.6"/></svg></div>
+        <div class="t1" id="uploadTitle">Autorize a localização acima para anexar</div>
+        <div class="t2">Toque para tirar foto/vídeo ou selecionar da galeria</div>
+      </label>
+      <input type="file" id="fileInput" accept="image/*,video/*" capture="environment" multiple disabled>
+      <div class="thumbs" id="thumbs"></div>
+      <p class="evidence-note">Se a localização não puder ser obtida no momento do envio de uma evidência, ela será marcada com erro e o registro da ocorrência ficará bloqueado até que a captura seja refeita com sucesso ou o arquivo removido.</p>
+
+      <div class="field-label">Ponto de referência (complementar, opcional)</div>
+      <textarea id="refField" placeholder="Ex: em frente ao mercado da Rua das Palmeiras, 340"></textarea>
+    </section>
+
+    <!-- STEP 3 — CONFIRMAÇÃO -->
+    <section class="panel" data-step="confirmacao">
+      <div class="step-label">Etapa 3 de 3</div>
+      <h2 class="step-title">Confirme e envie</h2>
+
+      <div class="field-label" style="margin-top:0;">Telefone de contato</div>
+      <input type="tel" id="phoneField" value="(96) 9 9123-4567">
+      <p class="meter-note" style="margin-top:6px;">Identificado automaticamente pelo link recebido via WhatsApp/SMS — edite se necessário.</p>
+
+      <div class="summary-card">
+        <div class="summary-row"><span class="k">Situação</span><span class="v" id="sumSituacao">—</span></div>
+        <div class="summary-row"><span class="k">Criticidade</span><span class="v" id="sumCriticidade">—</span></div>
+        <div class="summary-row"><span class="k">Evidências</span><span class="v" id="sumEvidencias">—</span></div>
+        <div class="summary-row"><span class="k">Localização</span><span class="v" id="sumLocal">—</span></div>
+      </div>
+
+      <div class="term-box" style="margin-top:18px;">
+        <div class="term-title">Termo de Ciência e Tratamento de Dados</div>
+        <div class="term-scroll">
+          <p><b>Finalidade:</b> os dados enviados (foto/vídeo, localização e telefone de contato) serão usados exclusivamente para triagem, classificação de criticidade e despacho de equipe técnica pela Equatorial.</p>
+          <p><b>Dados coletados:</b> imagem ou vídeo da situação, coordenadas de geolocalização vinculadas a cada evidência, número de telefone de contato e a categoria de risco selecionada.</p>
+          <p><b>Retenção:</b> os dados ficam armazenados pelo tempo necessário para atendimento da ocorrência e cumprimento de obrigações regulatórias, sendo descartados após esse período conforme política de retenção da Equatorial.</p>
+          <p><b>Compartilhamento:</b> os dados são encaminhados internamente às equipes de operação (ADMS/OPER) responsáveis pelo atendimento, podendo ser compartilhados com órgãos públicos (ex.: Defesa Civil) quando necessário à segurança pública.</p>
+          <p><b>Direitos do titular:</b> você pode solicitar confirmação, acesso, correção ou eliminação dos seus dados junto aos canais oficiais da Equatorial, nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
+        </div>
+        <label class="consent-check">
+          <input type="checkbox" id="consentTermCheck" onchange="toggleTermConsent(this.checked)">
+          <span>Li e aceito o Termo de Ciência e Tratamento de Dados.</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- STEP 5 — PROTOCOLO -->
+    <section class="panel" data-step="protocolo">
+      <div class="proto-hero">
+        <div class="proto-check" id="protoIconWrap">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#0E1218" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="eyebrow" style="justify-content:center;">Ocorrência registrada</div>
+        <div class="proto-code">Protocolo</div>
+        <div class="proto-num mono" id="protoNum">PERE-0000</div>
+        <span class="proto-crit" id="protoCritBadge">—</span>
+      </div>
+
+      <div class="sla-card">
+        <div class="h">Encaminhamento</div>
+        <div class="steps">
+          <div class="sla-step"><div class="d" style="background:var(--hazard);"></div><div class="txt">Evidência recebida pelo Portal PERE<small>Foto/vídeo, localização e classificação anexados</small></div></div>
+          <div class="sla-step"><div class="d" style="background:var(--hazard);"></div><div class="txt">Roteado para ADMS/OPER<small>Fila priorizada por nível de criticidade</small></div></div>
+          <div class="sla-step"><div class="d" style="background:var(--line);"></div><div class="txt" id="slaText">Atendimento estimado<small id="slaSub">—</small></div></div>
+        </div>
+      </div>
+
+      <p class="demo-note">Este é um protótipo navegável para apresentação no programa Agentes da Inovação. Nenhum dado é enviado a sistemas reais da Equatorial.</p>
+
+      <button class="cta-ghost" onclick="resetFlow()">Registrar nova ocorrência</button>
+    </section>
+
+  </main>
+
+  <div class="bottombar" id="bottombar">
+    <button class="btn-back" id="btnBack" onclick="prevStep()">←</button>
+    <button class="btn-next" id="btnNext" onclick="nextStep()" disabled>Continuar</button>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
