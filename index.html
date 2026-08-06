@@ -46,7 +46,7 @@
       <div class="hero-stats">
         <div class="stat"><div class="n">8</div><div class="l">Tipos de risco</div></div>
         <div class="stat"><div class="n">3</div><div class="l">Níveis de urgência</div></div>
-        <div class="stat"><div class="n">ADMS</div><div class="l">Roteamento direto</div></div>
+        <div class="stat"><div class="n">Sistema</div><div class="l">Roteamento direto</div></div>
       </div>
     </section>
 
@@ -125,30 +125,37 @@
       </div>
     </section>
 
-    <!-- STEP 5 — PROTOCOLO -->
+    <!-- STEP 5 — SUCESSO / PROTOCOLO -->
     <section class="panel" data-step="protocolo">
-      <div class="proto-hero">
-        <div class="proto-check" id="protoIconWrap">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#0E1218" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="success-screen">
+
+        <div class="success-circle">✓</div>
+
+        <div class="success-title">Ocorrência registrada!</div>
+
+        <div class="success-subtitle">Sua ocorrência foi enviada com sucesso e já está disponível para análise da equipe operacional.</div>
+
+        <div class="success-card">
+
+          <div class="success-label">Protocolo</div>
+          <div class="success-protocol mono" id="protoNum">PERE-000000</div>
+          <span class="success-status" id="protoCritBadge">—</span>
+
+          <hr>
+
+          <div class="timeline">
+            <div class="timeline-item done"><span>✓</span>Evidências recebidas</div>
+            <div class="timeline-item done"><span>✓</span>Localização validada</div>
+            <div class="timeline-item done"><span>✓</span>Classificação automática realizada</div>
+            <div class="timeline-item done"><span>✓</span>Encaminhado ao Centro de Operação</div>
+          </div>
+
         </div>
-        <div class="eyebrow" style="justify-content:center;">Ocorrência registrada</div>
-        <div class="proto-code">Protocolo</div>
-        <div class="proto-num mono" id="protoNum">PERE-0000</div>
-        <span class="proto-crit" id="protoCritBadge">—</span>
+
+        <p class="demo-note">Este é um protótipo navegável para apresentação no programa Agentes da Inovação. Nenhum dado é enviado a sistemas reais da Concessionaria.</p>
+
+
       </div>
-
-      <div class="sla-card">
-        <div class="h">Encaminhamento</div>
-        <div class="steps">
-          <div class="sla-step"><div class="d" style="background:var(--hazard);"></div><div class="txt">Evidência recebida pelo Portal PERE<small>Foto/vídeo, localização e classificação anexados</small></div></div>
-          <div class="sla-step"><div class="d" style="background:var(--hazard);"></div><div class="txt">Roteado para ADMS/OPER<small>Fila priorizada por nível de criticidade</small></div></div>
-          <div class="sla-step"><div class="d" style="background:var(--line);"></div><div class="txt" id="slaText">Atendimento estimado<small id="slaSub">—</small></div></div>
-        </div>
-      </div>
-
-      <p class="demo-note">Este é um protótipo navegável para apresentação no programa Agentes da Inovação. Nenhum dado é enviado a sistemas reais da Concessionaria.</p>
-
-      <button class="cta-ghost" onclick="resetFlow()">Registrar nova ocorrência</button>
     </section>
 
   </main>

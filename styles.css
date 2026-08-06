@@ -249,3 +249,169 @@
     .panel{animation:none;}
     .meter-fill.pulse{animation:none;}
   }
+
+  /* ---------- SUCCESS SCREEN ---------- */
+
+.success-screen{
+    text-align:center;
+    padding:15px 0 40px;
+}
+
+.success-circle{
+
+    width:95px;
+    height:95px;
+
+    margin:0 auto 22px;
+
+    border-radius:50%;
+
+    background:linear-gradient(180deg,#27c46a,#149c51);
+
+    color:#fff;
+
+    font-size:48px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+    animation:pop .6s ease;
+}
+
+.success-title{
+
+    font-family:'Barlow Condensed';
+
+    font-size:42px;
+
+    margin-bottom:10px;
+}
+
+.success-subtitle{
+
+    color:var(--muted);
+
+    line-height:1.7;
+
+    max-width:360px;
+
+    margin:auto;
+}
+
+.success-card{
+
+    margin-top:30px;
+
+    background:var(--surface);
+
+    border:1px solid var(--line);
+
+    border-radius:18px;
+
+    padding:24px;
+
+    text-align:left;
+}
+
+.success-label{
+
+    text-transform:uppercase;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    letter-spacing:.12em;
+}
+
+.success-protocol{
+
+    font-size:34px;
+
+    margin-top:8px;
+
+    font-weight:bold;
+}
+
+.success-status{
+
+    display:inline-block;
+
+    margin-top:15px;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    font-weight:bold;
+}
+
+.success-card hr{
+    border:none;
+    border-top:1px solid var(--line);
+    margin:16px 0 0;
+}
+
+.timeline{
+
+    margin-top:25px;
+}
+
+.timeline-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:18px;
+
+    font-size:15px;
+}
+
+.timeline-item span{
+
+    width:28px;
+
+    height:28px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:bold;
+
+    background:#2ac66f;
+
+    color:#fff;
+}
+
+@keyframes pop{
+
+    0%{
+
+        transform:scale(.4);
+
+        opacity:0;
+    }
+
+    70%{
+
+        transform:scale(1.08);
+    }
+
+    100%{
+
+        transform:scale(1);
+    }
+}

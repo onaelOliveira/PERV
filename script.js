@@ -223,10 +223,22 @@ function goTo(stepName){
 
 function nextStep(){
   const current = STEPS[stepIndex];
+
   if(current === 'confirmacao'){
-    buildSummary();
-    generateProtocol();
+    const btn = document.getElementById('btnNext');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    setTimeout(()=>{
+      buildSummary();
+      generateProtocol();
+      stepIndex++;
+      renderStep();
+    }, 1800);
+
+    return;
   }
+
   if(stepIndex < STEPS.length - 1){
     stepIndex++;
     if(STEPS[stepIndex] === 'confirmacao') buildSummary();
@@ -258,13 +270,8 @@ function generateProtocol(){
   document.getElementById('protoNum').textContent = num;
   const badge = document.getElementById('protoCritBadge');
   badge.textContent = meta.label;
-  badge.style.background = 'transparent';
-  badge.style.border = `1px solid ${meta.color}`;
-  badge.style.color = meta.color;
-  document.getElementById('protoIconWrap').style.background = meta.color;
-  document.getElementById('slaText').textContent = meta.sla;
-  document.getElementById('slaSub').textContent = meta.slaSub;
-  document.querySelectorAll('.sla-step .d')[2].style.background = meta.color;
+  badge.style.background = meta.color;
+  badge.style.color = '#fff';
 }
 
 function resetFlow(){
