@@ -266,7 +266,7 @@ function buildSummary(){
 function generateProtocol(){
   const s = SITUATIONS.find(x=>x.id===state.situationId);
   const meta = LEVEL_META[s.level];
-  const num = 'PERE-' + new Date().getFullYear() + '-' + String(Math.floor(100000 + Math.random()*899999));
+  const num = 'PERV-' + new Date().getFullYear() + '-' + String(Math.floor(100000 + Math.random()*899999));
   document.getElementById('protoNum').textContent = num;
   const badge = document.getElementById('protoCritBadge');
   badge.textContent = meta.label;
