@@ -153,7 +153,7 @@ Ocorrência enviada ao Centro de Operação
 
 # Benefícios
 
-## Para a Equatorial
+## Para a Concessionaria de Energia
 
 - redução do tempo de atendimento;
 - maior qualidade das evidências;
@@ -210,8 +210,6 @@ O sistema foi concebido seguindo princípios da Lei Geral de Proteção de Dados
 # 👨‍💻 Autor
 
 **Natanael Oliveira**
-
-Projeto desenvolvido para o programa **Agentes da Inovação** do Grupo Equatorial Energia.
 
 ---
 
