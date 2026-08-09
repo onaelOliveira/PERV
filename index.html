@@ -80,13 +80,21 @@
         </label>
       </div>
 
-      
-      <label class="upload-box locked" for="fileInput" id="uploadBox">
+      <label class="upload-box locked" for="cameraPhotoInput" id="uploadBox">
         <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7h3l2-2h6l2 2h3v13H4V7Z" stroke="#F5C518" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" stroke="#F5C518" stroke-width="1.6"/></svg></div>
         <div class="t1" id="uploadTitle">Autorize a localização acima para anexar</div>
-        <div class="t2">Toque para tirar foto/vídeo ou selecionar da galeria</div>
+        <div class="t2">Toque para abrir a câmera e tirar foto</div>
       </label>
-      <input type="file" id="fileInput" accept="image/*,video/*" capture="environment" multiple disabled>
+      <input type="file" id="cameraPhotoInput" accept="image/*" capture="environment" disabled>
+
+      <div class="upload-alt-row">
+        <label class="upload-alt locked" for="cameraVideoInput" id="videoBox">Gravar vídeo</label>
+        <input type="file" id="cameraVideoInput" accept="video/*" capture="environment" disabled>
+
+        <label class="upload-alt locked" for="galleryInput" id="galleryBox">Escolher da galeria</label>
+        <input type="file" id="galleryInput" accept="image/*,video/*" multiple disabled>
+      </div>
+
       <div class="thumbs" id="thumbs"></div>
       <p class="evidence-note">Se a localização não puder ser obtida no momento do envio de uma evidência, ela será marcada com erro e o registro da ocorrência ficará bloqueado até que a captura seja refeita com sucesso ou o arquivo removido.</p>
 
@@ -153,8 +161,7 @@
 
         </div>
 
-        <p class="demo-note">Este é um protótipo navegável para apresentação no programa Agentes da Inovação. Nenhum dado é enviado a sistemas reais da Concessionaria.</p>
-
+        <p class="demo-note">Este é um protótipo navegável para apresentação. Nenhum dado é enviado a sistemas reais da Concessionaria.</p>
 
       </div>
     </section>

@@ -26,6 +26,56 @@ let stepIndex = 0;
 // cada item de state.files: { file, url, coords:{lat,lng}|null, status:'pending'|'ok'|'error' }
 let state = { situationId:null, files:[], consentLocation:false, consentTerm:false, ref:'' };
 
+// URL do Web App do Google Apps Script (Extensões > Apps Script > Implantar > Nova implantação > Web app)
+// Cole aqui a URL que termina em /exec após publicar o script Code.gs
+const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxbzIIZvpKbpMKcTKSd1B2znISJmb6T8pZ5yuncJRT7jFU-7-3aWHMeckf3CDGFih7Cng/exec';
+
+function fileToBase64(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function submitOccurrence(protocolNum, meta, situationTxt){
+  if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL === 'COLE_AQUI_A_URL_DO_APPS_SCRIPT'){
+    console.warn('SHEET_WEBHOOK_URL não configurada — ocorrência não foi enviada para a planilha.');
+    return;
+  }
+  try{
+    const filesPayload = await Promise.all(state.files.map(async (entry)=>({
+      name: entry.file.name || 'evidencia',
+      mimeType: entry.file.type,
+      base64: await fileToBase64(entry.file),
+      lat: entry.coords ? entry.coords.lat : null,
+      lng: entry.coords ? entry.coords.lng : null
+    })));
+
+    const payload = {
+      protocolo: protocolNum,
+      situacao: situationTxt,
+      criticidade: meta.label,
+      telefone: document.getElementById('phoneField').value,
+      referencia: state.ref,
+      files: filesPayload
+    };
+
+    // Content-Type text/plain evita o preflight OPTIONS, que o Apps Script não trata bem.
+    // mode:'no-cors' é necessário porque o Apps Script não devolve headers de CORS;
+    // isso significa que não conseguimos ler a resposta (sucesso/erro) no navegador.
+    await fetch(SHEET_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+  } catch(err){
+    console.error('Falha ao enviar ocorrência para a planilha:', err);
+  }
+}
+
 function renderSituations(){
   const list = document.getElementById('situationList');
   list.innerHTML = '';
@@ -129,25 +179,33 @@ function captureLocationForFile(i){
   );
 }
 
-document.getElementById('fileInput').addEventListener('change', (e)=>{
-  Array.from(e.target.files).forEach(file=>{
+function handleNewFiles(fileList){
+  Array.from(fileList).forEach(file=>{
     state.files.push({ file, url: URL.createObjectURL(file), coords:null, status:'pending' });
   });
   renderThumbs();
   // dispara a captura de localização no exato momento do envio de cada evidência
   state.files.forEach((entry,i)=>{ if(entry.status === 'pending') captureLocationForFile(i); });
   updateNextEnabled();
-  e.target.value = '';
+}
+
+['cameraPhotoInput','cameraVideoInput','galleryInput'].forEach(id=>{
+  document.getElementById(id).addEventListener('change', (e)=>{
+    handleNewFiles(e.target.files);
+    e.target.value = '';
+  });
 });
 
 function toggleLocationConsent(checked){
   state.consentLocation = checked;
-  const box = document.getElementById('uploadBox');
-  const input = document.getElementById('fileInput');
   const title = document.getElementById('uploadTitle');
-  box.classList.toggle('locked', !checked);
-  input.disabled = !checked;
-  title.textContent = checked ? 'Toque para tirar foto ou gravar vídeo' : 'Autorize a localização acima para anexar';
+  ['uploadBox','videoBox','galleryBox'].forEach(id=>{
+    document.getElementById(id).classList.toggle('locked', !checked);
+  });
+  ['cameraPhotoInput','cameraVideoInput','galleryInput'].forEach(id=>{
+    document.getElementById(id).disabled = !checked;
+  });
+  title.textContent = checked ? 'Toque para abrir a câmera e tirar foto' : 'Autorize a localização acima para anexar';
   updateNextEnabled();
 }
 
@@ -229,12 +287,16 @@ function nextStep(){
     btn.disabled = true;
     btn.textContent = 'Enviando...';
 
-    setTimeout(()=>{
+    const s = SITUATIONS.find(x=>x.id===state.situationId);
+    const meta = LEVEL_META[s.level];
+    const protocolNum = 'PERV-' + new Date().getFullYear() + '-' + String(Math.floor(100000 + Math.random()*899999));
+
+    submitOccurrence(protocolNum, meta, s.txt).finally(()=>{
       buildSummary();
-      generateProtocol();
+      generateProtocol(protocolNum, meta);
       stepIndex++;
       renderStep();
-    }, 1800);
+    });
 
     return;
   }
@@ -263,10 +325,7 @@ function buildSummary(){
     : 'Não informado';
 }
 
-function generateProtocol(){
-  const s = SITUATIONS.find(x=>x.id===state.situationId);
-  const meta = LEVEL_META[s.level];
-  const num = 'PERV-' + new Date().getFullYear() + '-' + String(Math.floor(100000 + Math.random()*899999));
+function generateProtocol(num, meta){
   document.getElementById('protoNum').textContent = num;
   const badge = document.getElementById('protoCritBadge');
   badge.textContent = meta.label;
