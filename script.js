@@ -53,12 +53,14 @@ async function submitOccurrence(protocolNum, meta, situationTxt){
       lng: entry.coords ? entry.coords.lng : null
     })));
 
+    const loc = getPrimaryLocation();
     const payload = {
       protocolo: protocolNum,
       situacao: situationTxt,
       criticidade: meta.label,
       telefone: document.getElementById('phoneField').value,
       referencia: state.ref,
+      localizacao: loc ? `${loc.lat}, ${loc.lng}` : '',
       files: filesPayload
     };
 
@@ -179,8 +181,23 @@ function captureLocationForFile(i){
   );
 }
 
+const MAX_IMAGE_SIZE_MB = 8;
+const MAX_VIDEO_SIZE_MB = 25;
+
 function handleNewFiles(fileList){
   Array.from(fileList).forEach(file=>{
+    const isVideo = file.type.startsWith('video');
+    const maxMB = isVideo ? MAX_VIDEO_SIZE_MB : MAX_IMAGE_SIZE_MB;
+    const sizeMB = file.size / (1024 * 1024);
+
+    if(sizeMB > maxMB){
+      alert(
+        `"${file.name || (isVideo ? 'vídeo' : 'foto')}" tem ${sizeMB.toFixed(1)} MB e excede o limite de ${maxMB} MB para ${isVideo ? 'vídeos' : 'fotos'}.\n` +
+        (isVideo ? 'Grave um vídeo mais curto ou com qualidade menor.' : 'Escolha uma imagem menor.')
+      );
+      return;
+    }
+
     state.files.push({ file, url: URL.createObjectURL(file), coords:null, status:'pending' });
   });
   renderThumbs();
@@ -312,6 +329,12 @@ function prevStep(){
   if(stepIndex > 0){ stepIndex--; renderStep(); }
 }
 
+function getPrimaryLocation(){
+  const withLoc = state.files.filter(f => f.status === 'ok' && f.coords);
+  if(withLoc.length === 0) return null;
+  return { lat: withLoc[0].coords.lat, lng: withLoc[0].coords.lng, count: withLoc.length };
+}
+
 function buildSummary(){
   const s = SITUATIONS.find(x=>x.id===state.situationId);
   const meta = LEVEL_META[s.level];
@@ -319,9 +342,10 @@ function buildSummary(){
   document.getElementById('sumCriticidade').textContent = meta.label;
   document.getElementById('sumCriticidade').style.color = meta.color;
   document.getElementById('sumEvidencias').textContent = `${state.files.length} arquivo(s)`;
-  const withLoc = state.files.filter(f => f.status === 'ok').length;
-  document.getElementById('sumLocal').textContent = withLoc > 0
-    ? `${withLoc}/${state.files.length} evidência(s) com localização vinculada`
+
+  const loc = getPrimaryLocation();
+  document.getElementById('sumLocal').textContent = loc
+    ? `${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)}` + (loc.count > 1 ? ` (+${loc.count - 1} evidência(s))` : '')
     : 'Não informado';
 }
 
