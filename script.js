@@ -4,6 +4,7 @@ const SITUATIONS = [
   {id:'veiculo_preso', txt:'Veículo preso em fios elétricos', level:'critico'},
   {id:'contato_metal', txt:'Fiação em contato com estrutura metálica (grade, telhado, poste)', level:'critico'},
   {id:'poste_quebrado', txt:'Poste elétrico quebrado ou muito inclinado', level:'alto'},
+  {id:'poste_quebrado', txt:'Poste elétrico abalroado', level:'alto'},
   {id:'fiacao_exposta', txt:'Fiação exposta ao alcance de pessoas, sem contato', level:'alto'},
   {id:'faisca_fumaca', txt:'Faísca, fumaça ou barulho anormal na rede', level:'alto'},
   {id:'outra', txt:'Outra situação de risco elétrico', level:'medio'},
