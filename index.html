@@ -88,10 +88,10 @@
       <input type="file" id="cameraPhotoInput" accept="image/*" capture="environment" disabled>
 
       <div class="upload-alt-row">
-        <label class="upload-alt locked" for="cameraVideoInput" id="videoBox">Gravar vídeo</label>
+        <label class="upload-alt locked" for="cameraVideoInput" id="videoBox"><!--Gravar vídeo--></label>
         <input type="file" id="cameraVideoInput" accept="video/*" capture="environment" disabled>
 
-        <label class="upload-alt locked" for="galleryInput" id="galleryBox">Escolher da galeria</label>
+       <label class="upload-alt locked" for="galleryInput" id="galleryBox"> <!--Escolher da galeria--></label> 
         <input type="file" id="galleryInput" accept="image/*,video/*" multiple disabled>
       </div>
 
@@ -118,7 +118,7 @@
         <div class="summary-row"><span class="k">Localização</span><span class="v" id="sumLocal">—</span></div>
       </div>
 
-      <div class="term-box" style="margin-top:18px;">
+      <!-- <div class="term-box" style="margin-top:18px;">
         <div class="term-title">Termo de Ciência e Tratamento de Dados</div>
         <div class="term-scroll">
           <p><b>Finalidade:</b> os dados enviados (foto/vídeo, localização e telefone de contato) serão usados exclusivamente para triagem, classificação de criticidade e despacho de equipe técnica pela Concessionaria.</p>
@@ -126,13 +126,15 @@
           <p><b>Retenção:</b> os dados ficam armazenados pelo tempo necessário para atendimento da ocorrência e cumprimento de obrigações regulatórias, sendo descartados após esse período conforme política de retenção da Concessionaria.</p>
           <p><b>Compartilhamento:</b> os dados são encaminhados internamente às equipes de operação responsáveis pelo atendimento, podendo ser compartilhados com órgãos públicos (ex.: Defesa Civil) quando necessário à segurança pública.</p>
           <p><b>Direitos do titular:</b> você pode solicitar confirmação, acesso, correção ou eliminação dos seus dados junto aos canais oficiais da Concessionaria, nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
-        </div>
+        </div>-->
+        <br>
         <label class="consent-check">
           <input type="checkbox" id="consentTermCheck" onchange="toggleTermConsent(this.checked)">
-          <span>Li e aceito o Termo de Ciência e Tratamento de Dados.</span>
+          <span>Confirmo a emergência acima.</span>
+        <!-- <span>Li e aceito o Termo de Ciência e Tratamento de Dados.</span> -->
         </label>
       </div>
-    </section>
+    </section> 
 
     <!-- STEP 5 — SUCESSO / PROTOCOLO -->
     <section class="panel" data-step="protocolo">
