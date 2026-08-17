@@ -31,6 +31,7 @@
   }
   .mono{font-family:'JetBrains Mono',monospace;}
   #app{
+    width:100%;
     max-width:480px;
     margin:0 auto;
     min-height:100vh;
@@ -65,7 +66,7 @@
   .progress .dot.done{background:var(--hazard);}
   .progress .dot.now{background:var(--paper);}
 
-  main{flex:1; padding:22px 20px 110px;}
+  main{flex:1; padding:clamp(16px,4vw,22px) 16px calc(80px + env(safe-area-inset-bottom));}
   .panel{display:none; animation:fadeIn .35s ease;}
   .panel.active{display:block;}
   @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
@@ -106,8 +107,8 @@
     cursor:pointer; margin-top:10px;
   }
 
-  .hero-stats{display:flex; gap:10px; margin-top:26px;}
-  .hero-stats .stat{flex:1; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--surface);}
+  .hero-stats{display:flex; gap:10px; margin-top:26px; flex-wrap:wrap;}
+  .hero-stats .stat{flex:1 1 120px; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--surface);}
   .hero-stats .stat .n{font-family:'Barlow Condensed'; font-weight:800; font-size:22px; color:var(--hazard);}
   .hero-stats .stat .l{font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-top:2px;}
 
@@ -118,7 +119,7 @@
   /* ---- situation options ---- */
   .option-card{
     width:100%; text-align:left; background:var(--surface); border:1px solid var(--line);
-    border-radius:var(--radius); padding:14px 16px; margin-bottom:10px; cursor:pointer;
+    border-radius:var(--radius); padding:clamp(10px,2.5vw,14px); margin-bottom:10px; cursor:pointer;
     display:flex; align-items:center; justify-content:space-between; gap:10px;
     color:var(--paper); font-family:'Inter';
   }
@@ -153,7 +154,7 @@
   /* ---- evidence step ---- */
 .upload-box{
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  width:100%; border:1.5px dashed var(--line); border-radius:var(--radius); padding:26px 16px;
+  width:100%; border:1.5px dashed var(--line); border-radius:var(--radius); padding:clamp(18px,4vw,26px);
   text-align:center; cursor:pointer; background:var(--surface);
 }
   .upload-box:hover{border-color:var(--hazard);}
@@ -161,7 +162,7 @@
   .upload-box .t1{font-weight:700; font-size:14.5px;}
   .upload-box .t2{font-size:12.5px; color:var(--muted); margin-top:4px;}
   input[type=file]{display:none;}
-  .thumbs{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:14px;}
+  .thumbs{display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:8px; margin-top:14px;}
   .thumb{position:relative; aspect-ratio:1; border-radius:10px; overflow:hidden; background:var(--surface-raised); border:1px solid var(--line);}
   .thumb img,.thumb video{width:100%; height:100%; object-fit:cover; display:block;}
   .thumb .rm{
@@ -214,7 +215,7 @@
   /* ---- protocol result ---- */
   .proto-hero{text-align:center; padding:26px 10px 10px;}
   .proto-check{
-    width:64px; height:64px; border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center;
+    width:clamp(48px, 12vw, 64px); height:clamp(48px, 12vw, 64px); border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center;
   }
   .proto-code{font-size:15px; color:var(--muted); margin-top:4px;}
   .proto-num{font-family:'Barlow Condensed'; font-weight:800; font-size:38px; letter-spacing:.02em; margin-top:4px;}
@@ -256,52 +257,51 @@
 .success-screen{
     text-align:center;
     padding:15px 0 40px;
+    box-sizing:border-box;
+    width:100%;
 }
 
 .success-circle{
 
-    width:95px;
-    height:95px;
+  width:clamp(64px, 18vw, 95px);
+  height:clamp(64px, 18vw, 95px);
 
-    margin:0 auto 22px;
+  margin:0 auto 22px;
 
-    border-radius:50%;
+  border-radius:50%;
 
-    background:linear-gradient(180deg,#27c46a,#149c51);
+  background:linear-gradient(180deg,#27c46a,#149c51);
 
-    color:#fff;
+  color:#fff;
 
-    font-size:48px;
+  font-size:clamp(28px, 8vw, 48px);
 
-    display:flex;
+  display:flex;
 
-    align-items:center;
+  align-items:center;
 
-    justify-content:center;
+  justify-content:center;
 
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
 
-    animation:pop .6s ease;
+  animation:pop .6s ease;
 }
 
 .success-title{
 
-    font-family:'Barlow Condensed';
+  font-family:'Barlow Condensed';
 
-    font-size:42px;
+  font-size:clamp(22px, 6vw, 42px);
 
-    margin-bottom:10px;
+  margin-bottom:10px;
 }
 
 .success-subtitle{
-
     color:var(--muted);
-
     line-height:1.7;
-
-    max-width:360px;
-
+    max-width:100%;
     margin:auto;
+    word-break:break-word;
 }
 
 .success-card{
@@ -312,11 +312,13 @@
 
     border:1px solid var(--line);
 
-    border-radius:18px;
+  border-radius:18px;
 
-    padding:24px;
+  padding:clamp(12px, 3vw, 24px);
 
     text-align:left;
+    width:100%;
+    box-sizing:border-box;
 }
 
 .success-label{
@@ -331,12 +333,10 @@
 }
 
 .success-protocol{
-
-    font-size:34px;
-
+    font-size:clamp(16px, 5vw, 34px);
     margin-top:8px;
-
     font-weight:bold;
+    word-break:break-all;
 }
 
 .success-status{
@@ -364,17 +364,14 @@
 }
 
 .timeline-item{
-
     display:flex;
-
     align-items:center;
-
     gap:12px;
-
     margin-bottom:18px;
-
-    font-size:15px;
+    font-size:clamp(13px, 3.5vw, 15px);
+    text-align:left;
 }
+
 
 .timeline-item span{
 
@@ -416,3 +413,26 @@
         transform:scale(1);
     }
 }
+
+/* Small screen tweaks for success/protocol view */
+@media (max-width:420px){
+  .success-card{padding:12px 12px; border-radius:12px;}
+  .success-subtitle{font-size:14px; padding:0 6px;}
+  .timeline-item{gap:8px; margin-bottom:12px;}
+  .timeline-item span{width:22px; height:22px; font-size:12px;}
+  .proto-num{font-size:clamp(20px,6vw,32px);}
+  main{padding-bottom:calc(60px + env(safe-area-inset-bottom));}
+  .success-proto-row{flex-direction:column; align-items:flex-start; gap:8px;}
+  .success-protocol{font-size:clamp(16px,5.5vw,28px);}
+  .success-status{margin-top:2px;}
+}
+
+.success-proto-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.success-proto-row > div{min-width:0;}
+.success-protocol{overflow-wrap:anywhere;}
+.success-status{flex-shrink:0;}
